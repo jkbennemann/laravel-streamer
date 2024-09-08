@@ -1,0 +1,55 @@
+{
+    "name": "prwnr/laravel-streamer",
+    "description": "Events streaming package for Laravel that uses Redis 5 streams",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rafal Purwin",
+            "email": "purwinr@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "ext-redis": "*",
+        "php": "^7.4",
+        "illuminate/console": "^4.2",
+        "illuminate/support": "^4.2",
+        "illuminate/redis": "^4.2",
+        "illuminate/container": "^4.2"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^2.0",
+        "phpunit/phpunit": "^8.0",
+        "predis/predis": "^0.8",
+        "rector/rector": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Prwnr\\Streamer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "aliases": {
+                "Streamer": "Prwnr\\Streamer\\Facades\\Streamer"
+            },
+            "providers": [
+                "Prwnr\\Streamer\\StreamerProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true,
+            "kylekatarnls/update-helper": true
+        }
+    }
+}
