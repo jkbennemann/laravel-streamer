@@ -1,16 +1,44 @@
-# Laravel Streamer
+# Disclaimer
 
-Streamer is a Laravel package for events functionality between different applications, powered by Redis Streams. This
-package utilizes all main commands of Redis 5.0 Streams providing a simple usage of Streams as Events.
-
-Main concept of this package is to provide easy way of emitting new events from your application and to allow listening to them in your other applications that are using same Redis server.
+This is a WIP project with the aim to provide a simple way to use Redis Streams as an event bus in Laravel applications based on the [prwnr/laravel-streamer](https://github.com/prwnr/laravel-streamer) package. 
+The goal is not to establish a feature parity but provide simple ways to listen and publish to Redis Streams on a Laravel 4.2 application.
 
 # Installation
-1. Install package via composer command `composer require prwnr/laravel-streamer` or by adding it to your composer.json file with version.
-2. Discover the package
-3. Publish configuration with `vendor:publish` command.
+1. Add the repository to your composer.json file
+```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/jkbennemann/laravel-streamer"
+    }
+]
+```
+2. Change the version of the package to `dev-main`
+3. Add minimum-stability to `dev`
+3. Install package via composer command `composer require prwnr/laravel-streamer` or by adding it to your composer.json file with version.
+4. Copy over the configuration file to `config/streamer.php`
+```php
+return [
+    'listen_timeout' => 0,
+    'stream_read_timeout' => 0,
+    'read_sleep' => 1,
+    'redis_connection' => 'default',
+    'domain' => 'Your Application Name',
+    'listen_and_fire' => [
+        'example.streamer.event' => [
+            //List of local listeners that should be invoked
+            //\App\Listeners\ExampleListener::class
+        ],
+    ],
+    'archive' => [
+        'storage_driver' => 'null',
+    ],
+];
+```
 4. Make sure that you have running Redis 5.0 instance and that Laravel is configured to use it 
 5. Make sure that you have [PHPRedis extension](https://github.com/phpredis/phpredis) installed.
+
+
 # Usage
 There are two main ends of this package usage - emiting new event and listening to events. Whereas emiting requires a bit more work to get it used, such as creating own Event classes, then listening to events is available with artisan command and is working without much work needed.
 
@@ -18,16 +46,7 @@ There are two main ends of this package usage - emiting new event and listening 
 
 | PHP                      | Laravel                         | Streamer | Redis driver | Redis        |
 |:-------------------------|:--------------------------------|:---------|:-------------|--------------|
-| 7.2^&#124;8.0^           | 5.6.x                           | 1.6.x    | Predis       |              |
-| 7.2^&#124;8.0^           | 5.7.x                           | 1.6.x    | Predis       |              | 
-| 7.2^&#124;8.0^           | 5.8.x                           | 1.6.x    | Predis       |              |
-| 7.2^&#124;8.0^           | 6.x                             | 2.x      | PhpRedis     |              |
-| 7.2^&#124;8.0^           | 6.x&#124;7.x                    | ^2.1     | PhpRedis     |              |
-| 7.2^&#124;8.0^           | 6.x&#124;7.x&#124;8.x           | ^2.3     | PhpRedis     |              |
-| 7.4^&#124;8.0^&#124;8.1^ | 6.x&#124;7.x&#124;8.x           | ^3.0     | PhpRedis     |              |
-| 7.4^&#124;8.0^&#124;8.1^ | 6.x&#124;7.x&#124;8.x&#124;9.x  | ^3.3     | PhpRedis     |              |
-| 7.4^&#124;8.0^&#124;8.1^ | 7.x&#124;8.x&#124;9.x&#124;10.x | ^3.5     | PhpRedis     |              |
-| 8.1^                     | 10.x&#124;11.x                  | ^4.0     | PhpRedis     | 6.0&#124;7.0 |
+| ^7.4                     | 4.2                             | dev-main | Predis       |              |
   
 ### Emiting new events
 
